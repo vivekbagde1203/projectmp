@@ -1,0 +1,29 @@
+{{- if .Values.istio.enabled }}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "student-management.fullname" . }}-vs
+  labels:
+    {{- include "student-management.labels" . | nindent 4 }}
+spec:
+  hosts:
+    - {{ include "student-management.vsHost" . }}
+  gateways:
+    - {{ .Values.istio.virtualService.gateways | join "\n    - " }}
+  http:
+    {{- range .Values.istio.virtualService.http }}
+    - match:
+        {{- range .match }}
+        - uri:
+            prefix: {{ .uri.prefix }}
+        {{- end }}
+      route:
+        {{- range .route }}
+        - destination:
+            host: {{ .destination.host }}
+            port:
+              number: {{ .destination.port.number }}
+        {{- end }}
+    {{- end }}
+{{- end }}
+

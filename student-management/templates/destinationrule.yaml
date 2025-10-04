@@ -1,0 +1,14 @@
+{{- if .Values.istio.enabled }}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ include "student-management.drName" . }}
+  labels:
+    {{- include "student-management.labels" . | nindent 4 }}
+spec:
+  host: {{ .Values.istio.destinationRule.host }}
+  trafficPolicy:
+    tls:
+      mode: {{ .Values.istio.destinationRule.trafficPolicy.tls.mode }}
+{{- end }}
+

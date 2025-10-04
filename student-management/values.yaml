@@ -24,3 +24,25 @@ ingress:
           pathType: Prefix
   tls: []
 
+istio:
+  enabled: true
+  virtualService:
+    hosts:
+      - student-management.example.com
+    gateways:
+      - istio-ingressgateway
+    http:
+      - match:
+          - uri:
+              prefix: "/"
+        route:
+          - destination:
+              host: student-management
+              port:
+                number: 8080
+  destinationRule:
+    host: student-management
+    trafficPolicy:
+      tls:
+        mode: ISTIO_MUTUAL
+
