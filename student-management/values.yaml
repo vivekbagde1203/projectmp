@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: "projectdocker1203/student-management"  # will be overwritten by Jenkins
-  tag: "latest"
+  repository: "projectdocker1203/student-management"
+  tag: "v1.0.38"
   pullPolicy: IfNotPresent
 
 service:
