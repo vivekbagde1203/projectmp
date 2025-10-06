@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-management
+  labels:
+    app: student-management
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: student-management
+  template:
+    metadata:
+      labels:
+        app: student-management
+    spec:
+      containers:
+        - name: student-management
+          image: your-dockerhub-user/student-management:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+

@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: student-management-vs
+spec:
+  hosts:
+    - student-management.example.com
+  gateways:
+    - istio-system/my-gateway
+  http:
+    - match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            host: student-management
+            port:
+              number: 8080
+
