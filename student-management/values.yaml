@@ -28,9 +28,9 @@ istio:
   enabled: true
   virtualService:
     hosts:
-      - student-management.example.com
+      - "*"
     gateways:
-      - istio-ingressgateway
+      - argocd-gateway
     http:
       - match:
           - uri:
